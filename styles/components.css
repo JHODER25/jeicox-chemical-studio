@@ -1,0 +1,541 @@
+/* ========================================
+   Chemical Equilibrium Studio - Components
+   ======================================== */
+
+/* === Reaction Selector === */
+.reaction-selector {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.reaction-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid transparent;
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-md);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+}
+
+.reaction-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-science);
+    opacity: 0;
+    transition: opacity var(--transition-base);
+    z-index: -1;
+}
+
+.reaction-card:hover::before {
+    opacity: 0.1;
+}
+
+.reaction-card:hover {
+    border-color: var(--accent-cyan);
+    transform: translateX(4px);
+}
+
+.reaction-card.active {
+    border-color: var(--accent-cyan);
+    background: rgba(6, 182, 212, 0.1);
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
+}
+
+.reaction-card-title {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-xs);
+    font-weight: 600;
+}
+
+.reaction-card-desc {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    line-height: 1.4;
+}
+
+.reaction-card-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    font-size: 0.625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: var(--spacing-xs);
+}
+
+.badge-easy {
+    background: rgba(16, 185, 129, 0.2);
+    color: var(--accent-green);
+}
+
+.badge-medium {
+    background: rgba(245, 158, 11, 0.2);
+    color: var(--accent-yellow);
+}
+
+.badge-hard {
+    background: rgba(239, 68, 68, 0.2);
+    color: var(--accent-red);
+}
+
+/* === Concentration Controls === */
+.concentration-controls {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.concentration-input-group {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.molecule-label {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    min-width: 60px;
+    font-weight: 600;
+}
+
+.concentration-input {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-sm);
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    outline: none;
+    transition: all var(--transition-base);
+}
+
+.concentration-input:focus {
+    border-color: var(--accent-cyan);
+    background: rgba(6, 182, 212, 0.1);
+    box-shadow: 0 0 10px rgba(6, 182, 212, 0.2);
+}
+
+.concentration-unit {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    min-width: 50px;
+}
+
+/* === Modal === */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn var(--transition-base);
+}
+
+.modal-content {
+    background: var(--secondary-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-xl);
+    animation: slideUp var(--transition-base);
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-header {
+    padding: var(--spacing-lg);
+    border-bottom: 1px solid var(--glass-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--glass-bg);
+}
+
+.modal-header h2 {
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.modal-close {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-close:hover {
+    background: rgba(239, 68, 68, 0.2);
+    color: var(--accent-red);
+    transform: rotate(90deg);
+}
+
+.modal-body {
+    padding: var(--spacing-lg);
+    overflow-y: auto;
+    flex: 1;
+}
+
+.modal-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background: var(--accent-cyan);
+    border-radius: 10px;
+}
+
+/* === Challenge Cards === */
+.challenge-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+    transition: all var(--transition-base);
+}
+
+.challenge-card:hover {
+    border-color: var(--accent-purple);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(139, 92, 246, 0.2);
+}
+
+.challenge-card.completed {
+    border-color: var(--accent-green);
+    background: rgba(16, 185, 129, 0.05);
+}
+
+.challenge-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.challenge-description {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-md);
+}
+
+.challenge-goal {
+    background: rgba(6, 182, 212, 0.1);
+    border-left: 3px solid var(--accent-cyan);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+    color: var(--accent-cyan);
+    font-weight: 500;
+    margin-bottom: var(--spacing-md);
+}
+
+.challenge-progress {
+    margin-top: var(--spacing-md);
+}
+
+.progress-bar-container {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-sm);
+    height: 8px;
+    overflow: hidden;
+    margin-bottom: var(--spacing-sm);
+}
+
+.progress-bar {
+    height: 100%;
+    background: var(--gradient-science);
+    border-radius: var(--radius-sm);
+    transition: width var(--transition-slow);
+}
+
+.progress-text {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    text-align: center;
+}
+
+/* === Tooltips === */
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-md);
+    font-size: 0.75rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-base);
+    z-index: 100;
+}
+
+.tooltip::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: rgba(0, 0, 0, 0.9);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-base);
+}
+
+.tooltip:hover::after,
+.tooltip:hover::before {
+    opacity: 1;
+}
+
+/* === Loading Spinner === */
+.loading-spinner {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    border-top-color: var(--accent-cyan);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* === Alert/Notification === */
+.alert {
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-md);
+    border-left: 4px solid;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+    animation: slideInRight var(--transition-base);
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.alert-info {
+    background: rgba(6, 182, 212, 0.1);
+    border-color: var(--accent-cyan);
+    color: var(--accent-cyan);
+}
+
+.alert-success {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: var(--accent-green);
+    color: var(--accent-green);
+}
+
+.alert-warning {
+    background: rgba(245, 158, 11, 0.1);
+    border-color: var(--accent-yellow);
+    color: var(--accent-yellow);
+}
+
+.alert-error {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: var(--accent-red);
+    color: var(--accent-red);
+}
+
+.alert-icon {
+    font-size: 1.25rem;
+}
+
+.alert-content {
+    flex: 1;
+}
+
+.alert-title {
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+}
+
+.alert-message {
+    font-size: 0.875rem;
+    opacity: 0.9;
+}
+
+/* === Custom Checkbox (for future use) === */
+.custom-checkbox {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    cursor: pointer;
+    user-select: none;
+}
+
+.custom-checkbox input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    position: relative;
+}
+
+.custom-checkbox input[type="checkbox"]:checked {
+    background: var(--gradient-science);
+    border-color: var(--accent-cyan);
+}
+
+.custom-checkbox input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.custom-checkbox label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+/* === Particle Color Legend === */
+.particle-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-md);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+/* === Energy Diagram (for future implementation) === */
+.energy-diagram {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    position: relative;
+    height: 200px;
+}
+
+/* === Reactor Type Selector === */
+.reactor-selector {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+.reactor-option {
+    padding: var(--spacing-sm);
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid transparent;
+    border-radius: var(--radius-md);
+    text-align: center;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    font-size: 0.75rem;
+}
+
+.reactor-option:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.reactor-option.active {
+    border-color: var(--accent-purple);
+    background: rgba(139, 92, 246, 0.1);
+    color: var(--accent-purple);
+}
+
+.reactor-icon {
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-xs);
+    display: block;
+}
