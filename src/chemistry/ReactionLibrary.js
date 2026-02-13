@@ -16,7 +16,7 @@ export const ReactionLibrary = {
             { formula: 'N₂O₄', coefficient: 1, color: '#64748b', initialConc: 2.0 }
         ],
         products: [
-            { formula: 'NO₂', coefficient: 2, color: '#92400e', initialConc: 0.1 }
+            { formula: 'NO₂', coefficient: 2, color: '#d97706', initialConc: 0.1 }
         ],
 
         // Cinética AJUSTADA (proporcional a valores reales pero escala útil)
@@ -52,8 +52,8 @@ export const ReactionLibrary = {
         difficulty: 'fácil',
 
         reactants: [
-            { formula: 'H₂', coefficient: 1, color: '#e0e7ff', initialConc: 1.0 },
-            { formula: 'I₂', coefficient: 1, color: '#6b21a8', initialConc: 1.0 }
+            { formula: 'H₂', coefficient: 1, color: '#a5b4fc', initialConc: 1.0 },
+            { formula: 'I₂', coefficient: 1, color: '#7c3aed', initialConc: 1.0 }
         ],
         products: [
             { formula: 'HI', coefficient: 2, color: '#fbbf24', initialConc: 0.0 }
@@ -92,11 +92,11 @@ export const ReactionLibrary = {
         difficulty: 'media',
 
         reactants: [
-            { formula: 'PCl₅', coefficient: 1, color: '#fef08a', initialConc: 1.5 }
+            { formula: 'PCl₅', coefficient: 1, color: '#fde047', initialConc: 1.5 }
         ],
         products: [
-            { formula: 'PCl₃', coefficient: 1, color: '#bef264', initialConc: 0.0 },
-            { formula: 'Cl₂', coefficient: 1, color: '#22c55e', initialConc: 0.0 }
+            { formula: 'PCl₃', coefficient: 1, color: '#84cc16', initialConc: 0.0 },
+            { formula: 'Cl₂', coefficient: 1, color: '#10b981', initialConc: 0.0 }
         ],
 
         // Cinética AJUSTADA
@@ -132,16 +132,16 @@ export const ReactionLibrary = {
         difficulty: 'media',
 
         reactants: [
-            { formula: 'Fe³⁺', coefficient: 1, color: '#fbbf24', initialConc: 0.002 },
-            { formula: 'SCN⁻', coefficient: 1, color: '#e0e7ff', initialConc: 0.002 }
+            { formula: 'Fe³⁺', coefficient: 1, color: '#f59e0b', initialConc: 0.5 },
+            { formula: 'SCN⁻', coefficient: 1, color: '#c7d2fe', initialConc: 0.5 }
         ],
         products: [
             { formula: 'FeSCN²⁺', coefficient: 1, color: '#dc2626', initialConc: 0.0 }
         ],
 
-        // Cinética AJUSTADA (escalada para no ser instantánea visualmente)
-        kForward: 1800,   // M⁻¹s⁻¹ (escalado 10⁵x menor pero aún rápida)
-        kReverse: 2.0,   // s⁻¹
+        // Cinética AJUSTADA (reducida para estabilidad)
+        kForward: 18,   // M⁻¹s⁻¹ (100x menor para estabilidad)
+        kReverse: 0.02,   // s⁻¹
 
         // Energías de activación REALES (muy bajas - iónica)
         Ea_forward: 18.0,  // kJ/mol (barrera muy baja)
@@ -212,11 +212,11 @@ export const ReactionLibrary = {
         difficulty: 'difícil',
 
         reactants: [
-            { formula: 'N₂', coefficient: 1, color: '#60a5fa', initialConc: 1.0 },
-            { formula: 'H₂', coefficient: 3, color: '#e0e7ff', initialConc: 3.0 }
+            { formula: 'N₂', coefficient: 1, color: '#3b82f6', initialConc: 1.0 },
+            { formula: 'H₂', coefficient: 3, color: '#a5b4fc', initialConc: 3.0 }
         ],
         products: [
-            { formula: 'NH₃', coefficient: 2, color: '#a78bfa', initialConc: 0.0 }
+            { formula: 'NH₃', coefficient: 2, color: '#8b5cf6', initialConc: 0.0 }
         ],
 
         // Cinética AJUSTADA (escalada para pedagogía)

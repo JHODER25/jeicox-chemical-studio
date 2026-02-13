@@ -20,6 +20,8 @@
 
   <link rel="stylesheet" href="/styles/index.css">
   <link rel="stylesheet" href="/styles/components.css">
+  <link rel="stylesheet" href="/styles/simulation-center.css">
+  <link rel="stylesheet" href="/styles/collapsible.css">
 </head>
 
 <body>
@@ -30,7 +32,7 @@
       <div class="logo">
         <span class="logo-icon">⚗️</span>
         <h1 class="studio-title">
-          <span class="brand-name">JEICOX</span>
+          <span class="brand-name">UNI - FIA</span>
           <span class="brand-subtitle">Chemical Studio</span>
         </h1>
       </div>
@@ -47,143 +49,144 @@
       <!-- Left Control Panel -->
       <aside class="control-panel">
         <div class="panel-section">
-          <h2 class="panel-title">⚗️ Seleccionar Reacción</h2>
-          <div id="reaction-selector" class="reaction-selector">
-            <!-- Populated by JS -->
-          </div>
-        </div>
-
-        <div class="panel-section">
-          <h2 class="panel-title">🎛️ Parámetros del Sistema</h2>
-
-          <div class="control-group">
-            <label for="temperature-slider">
-              <span class="control-label">Temperatura</span>
-              <span class="control-value" id="temperature-value">298 K</span>
-            </label>
-            <input type="range" id="temperature-slider" min="200" max="600" value="298" step="1">
-          </div>
-
-          <div class="control-group">
-            <label for="pressure-slider">
-              <span class="control-label">Presión</span>
-              <span class="control-value" id="pressure-value">1.0 atm</span>
-            </label>
-            <input type="range" id="pressure-slider" min="0.1" max="10" value="1.0" step="0.1">
-          </div>
-
-          <div class="control-group">
-            <label for="volume-slider">
-              <span class="control-label">Volumen</span>
-              <span class="control-value" id="volume-value">10 L</span>
-            </label>
-            <input type="range" id="volume-slider" min="1" max="100" value="10" step="1">
-          </div>
-
-          <div class="control-group">
-            <label for="catalyst-select">
-              <span class="control-label">Catalizador</span>
-            </label>
-            <select id="catalyst-select" class="catalyst-select">
-              <option value="none">Sin catalizador</option>
-              <option value="platinum">Platino (Pt) - Hidrogenación</option>
-              <option value="palladium">Paladio (Pd) - Acoplamiento</option>
-              <option value="vanadium">V₂O₅ - Proceso Contact</option>
-              <option value="enzyme">Enzima biológica</option>
-              <option value="iron">Hierro (Fe) - Haber-Bosch</option>
-            </select>
-            <div id="catalyst-info" class="catalyst-info"></div>
-          </div>
-        </div>
-
-        <div class="panel-section">
-          <h2 class="panel-title">📊 Parámetros Técnicos</h2>
-          <div class="technical-data">
-            <div class="tech-group">
-              <h4 class="tech-subtitle">Cinética</h4>
-              <div class="tech-item">
-                <span class="tech-label">k<sub>f</sub> base:</span>
-                <span class="tech-value" id="kf-base">-</span>
-              </div>
-              <div class="tech-item">
-                <span class="tech-label">k<sub>r</sub> base:</span>
-                <span class="tech-value" id="kr-base">-</span>
-              </div>
-              <div class="tech-item">
-                <span class="tech-label">k<sub>f</sub> efectivo:</span>
-                <span class="tech-value" id="kf-effective">-</span>
-              </div>
-              <div class="tech-item">
-                <span class="tech-label">k<sub>r</sub> efectivo:</span>
-                <span class="tech-value" id="kr-effective">-</span>
-              </div>
-            </div>
-
-            <div class="tech-group">
-              <h4 class="tech-subtitle">Energía de Activación</h4>
-              <div class="tech-item">
-                <span class="tech-label">Ea<sub>f</sub> original:</span>
-                <span class="tech-value" id="ea-forward-orig">-</span>
-              </div>
-              <div class="tech-item">
-                <span class="tech-label">Ea<sub>r</sub> original:</span>
-                <span class="tech-value" id="ea-reverse-orig">-</span>
-              </div>
-              <div class="tech-item">
-                <span class="tech-label">Ea<sub>f</sub> reducida:</span>
-                <span class="tech-value" id="ea-forward-reduced">-</span>
-              </div>
-              <div class="tech-item">
-                <span class="tech-label">Ea<sub>r</sub> reducida:</span>
-                <span class="tech-value" id="ea-reverse-reduced">-</span>
-              </div>
-              <div class="tech-item">
-                <span class="tech-label">Factor aceleración:</span>
-                <span class="tech-value highlight" id="catalyst-factor">1.0x</span>
-              </div>
+          <h2 class="panel-title collapsible-toggle">
+            <span>⚗️ Seleccionar Reacción</span>
+            <button class="toggle-btn">▼</button>
+          </h2>
+          <div class="collapsible-content" style="display: none;">
+            <div id="reaction-selector" class="reaction-selector">
+              <!-- Populated by JS -->
             </div>
           </div>
         </div>
 
         <div class="panel-section">
-          <h2 class="panel-title">⚙️ Concentraciones Iniciales (mol/L)</h2>
-          <div id="concentration-controls" class="concentration-controls">
-            <!-- Populated by JS based on selected reaction -->
+          <h2 class="panel-title collapsible-toggle">
+            <span>🏛️ Parámetros del Sistema</span>
+            <button class="toggle-btn">▼</button>
+          </h2>
+          <div class="collapsible-content" style="display: none;">
+
+            <div class="control-group">
+              <label for="temperature-slider">
+                <span class="control-label">Temperatura</span>
+                <span class="control-value" id="temperature-value">298 K</span>
+              </label>
+              <input type="range" id="temperature-slider" min="200" max="600" value="298" step="1">
+            </div>
+
+            <div class="control-group">
+              <label for="pressure-slider">
+                <span class="control-label">Presión</span>
+                <span class="control-value" id="pressure-value">1.0 atm</span>
+              </label>
+              <input type="range" id="pressure-slider" min="0.1" max="10" value="1.0" step="0.1">
+            </div>
+
+            <div class="control-group">
+              <label for="volume-slider">
+                <span class="control-label">Volumen</span>
+                <span class="control-value" id="volume-value">10 L</span>
+              </label>
+              <input type="range" id="volume-slider" min="1" max="100" value="10" step="1">
+            </div>
+
+            <div class="control-group">
+              <label for="catalyst-select">
+                <span class="control-label">Catalizador</span>
+              </label>
+              <select id="catalyst-select" class="catalyst-select">
+                <option value="none">Sin catalizador</option>
+                <option value="platinum">Platino (Pt) - Hidrogenación</option>
+                <option value="palladium">Paladio (Pd) - Acoplamiento</option>
+                <option value="vanadium">V₂O₅ - Proceso Contact</option>
+                <option value="enzyme">Enzima biológica</option>
+                <option value="iron">Hierro (Fe) - Haber-Bosch</option>
+              </select>
+              <div id="catalyst-info" class="catalyst-info"></div>
+            </div>
           </div>
         </div>
 
         <div class="panel-section">
-          <h2 class="panel-title">▶️ Simulación</h2>
-          <div class="simulation-controls">
-            <button id="play-btn" class="btn-primary">▶️ Iniciar</button>
-            <button id="pause-btn" class="btn-secondary" disabled>⏸️ Pausar</button>
-            <button id="reset-btn" class="btn-secondary">🔄 Reiniciar</button>
-          </div>
+          <h2 class="panel-title collapsible-toggle">
+            <span>📊 Parámetros Técnicos</span>
+            <button class="toggle-btn">▼</button>
+          </h2>
+          <div class="collapsible-content" style="display: none;">
+            <div class="technical-data">
+              <div class="tech-group">
+                <h4 class="tech-subtitle">Cinética</h4>
+                <div class="tech-item">
+                  <span class="tech-label">k<sub>f</sub> base:</span>
+                  <span class="tech-value" id="kf-base">-</span>
+                </div>
+                <div class="tech-item">
+                  <span class="tech-label">k<sub>r</sub> base:</span>
+                  <span class="tech-value" id="kr-base">-</span>
+                </div>
+                <div class="tech-item">
+                  <span class="tech-label">k<sub>f</sub> efectivo:</span>
+                  <span class="tech-value" id="kf-effective">-</span>
+                </div>
+                <div class="tech-item">
+                  <span class="tech-label">k<sub>r</sub> efectivo:</span>
+                  <span class="tech-value" id="kr-effective">-</span>
+                </div>
+              </div>
 
-          <div class="control-group">
-            <label for="speed-slider">
-              <span class="control-label">Velocidad</span>
-              <span class="control-value" id="speed-value">1x</span>
-            </label>
-            <input type="range" id="speed-slider" min="0.1" max="5" value="1" step="0.1">
-          </div>
-
-          <div class="control-group">
-            <label for="timescale-slider">
-              <span class="control-label">⏱️ Escala de Tiempo</span>
-              <span class="control-value" id="timescale-value">1x</span>
-            </label>
-            <input type="range" id="timescale-slider" min="0" max="4" value="0" step="1" class="timescale-slider">
-            <div class="timescale-labels">
-              <span>1x</span>
-              <span>10x</span>
-              <span>100x</span>
-              <span>1k</span>
-              <span>10k</span>
+              <div class="tech-group">
+                <h4 class="tech-subtitle">Energía de Activación</h4>
+                <div class="tech-item">
+                  <span class="tech-label">Ea<sub>f</sub> original:</span>
+                  <span class="tech-value" id="ea-forward-orig">-</span>
+                </div>
+                <div class="tech-item">
+                  <span class="tech-label">Ea<sub>r</sub> original:</span>
+                  <span class="tech-value" id="ea-reverse-orig">-</span>
+                </div>
+                <div class="tech-item">
+                  <span class="tech-label">Ea<sub>f</sub> reducida:</span>
+                  <span class="tech-value" id="ea-forward-reduced">-</span>
+                </div>
+                <div class="tech-item">
+                  <span class="tech-label">Ea<sub>r</sub> reducida:</span>
+                  <span class="tech-value" id="ea-reverse-reduced">-</span>
+                </div>
+                <div class="tech-item">
+                  <span class="tech-label">Factor aceleración:</span>
+                  <span class="tech-value highlight" id="catalyst-factor">1.0x</span>
+                </div>
+              </div>
             </div>
-            <p class="control-hint">⚡ Acelera reacciones lentas sin cambiar física</p>
           </div>
         </div>
+
+        <div class="panel-section">
+          <h2 class="panel-title collapsible-toggle">
+            <span>⚙️ Concentraciones Iniciales (mol/L)</span>
+            <button class="toggle-btn">▼</button>
+          </h2>
+          <div class="collapsible-content" style="display: none;">
+            <div id="concentration-controls" class="concentration-controls">
+              <!-- Populated by JS based on selected reaction -->
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <h2 class="panel-title collapsible-toggle">
+            <span>💡 Información</span>
+            <button class="toggle-btn">▼</button>
+          </h2>
+          <div class="collapsible-content" style="display: none;">
+            <div id="info-content" class="info-content">
+              <p>Bienvenido al Chemical Equilibrium Studio. Selecciona una reacción para comenzar.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Simulación section moved below 3D cube -->
       </aside>
 
       <!-- Center Visualization Area -->
@@ -215,6 +218,42 @@
             </div>
           </div>
         </div>
+
+        <!-- Simulation Controls Below 3D Cube -->
+        <div class="simulation-controls-center">
+          <h2 class="panel-title">▶️ Simulación</h2>
+          <div class="simulation-buttons">
+            <button id="play-btn" class="btn-primary">▶️ Iniciar</button>
+            <button id="pause-btn" class="btn-secondary" disabled>⏸️ Pausar</button>
+            <button id="reset-btn" class="btn-secondary">🔄 Reiniciar</button>
+          </div>
+
+          <div class="simulation-sliders">
+            <div class="control-group">
+              <label for="speed-slider">
+                <span class="control-label">Velocidad</span>
+                <span class="control-value" id="speed-value">1x</span>
+              </label>
+              <input type="range" id="speed-slider" min="0.1" max="5" value="1" step="0.1">
+            </div>
+
+            <div class="control-group">
+              <label for="timescale-slider">
+                <span class="control-label">⏱️ Escala de Tiempo</span>
+                <span class="control-value" id="timescale-value">1x</span>
+              </label>
+              <input type="range" id="timescale-slider" min="0" max="4" value="0" step="1" class="timescale-slider">
+              <div class="timescale-labels">
+                <span>1x</span>
+                <span>10x</span>
+                <span>100x</span>
+                <span>1k</span>
+                <span>10k</span>
+              </div>
+              <p class="control-hint">⚡ Acelera reacciones lentas sin cambiar física</p>
+            </div>
+          </div>
+        </div>
       </section>
 
       <!-- Right Info Panel -->
@@ -242,21 +281,17 @@
         </div>
 
         <div class="panel-section">
-          <h2 class="panel-title">📈 Gráficas</h2>
+          <h2 class="panel-title collapsible-header">
+            <span>📊 Gráficas</span>
+            <button class="fullscreen-btn" id="chart-fullscreen-btn" title="Ver en pantalla completa">⛶</button>
+          </h2>
           <div class="chart-tabs">
-            <button class="tab-btn active" data-chart="concentration">Concentración</button>
-            <button class="tab-btn" data-chart="rate">Velocidad</button>
-            <button class="tab-btn" data-chart="energy">Energía</button>
+            <button class="chart-tab active" data-chart="concentration">Concentración</button>
+            <button class="chart-tab" data-chart="rate">Velocidad</button>
+            <button class="chart-tab" data-chart="energy">Energía</button>
           </div>
-          <div class="chart-container">
+          <div class="chart-wrapper">
             <canvas id="main-chart"></canvas>
-          </div>
-        </div>
-
-        <div class="panel-section">
-          <h2 class="panel-title">💡 Información</h2>
-          <div id="info-content" class="info-content">
-            <p>Bienvenido al Chemical Equilibrium Studio. Selecciona una reacción para comenzar.</p>
           </div>
         </div>
 
@@ -281,6 +316,17 @@
       </div>
       <div class="modal-body" id="challenge-content">
         <!-- Populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Fullscreen Chart Modal -->
+  <div id="chart-fullscreen-modal" class="fullscreen-modal">
+    <div class="fullscreen-modal-content">
+      <button class="fullscreen-close-btn" id="close-fullscreen">✕</button>
+      <h2 class="fullscreen-title">Gráfica de Concentración vs Tiempo</h2>
+      <div class="fullscreen-chart-wrapper">
+        <canvas id="fullscreen-chart"></canvas>
       </div>
     </div>
   </div>

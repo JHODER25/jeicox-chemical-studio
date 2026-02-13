@@ -290,7 +290,14 @@ export class EquilibriumEngine {
         this.history.time.push(this.time);
 
         Object.keys(this.concentrations).forEach(species => {
-            this.history.concentrations[species].push(this.concentrations[species]);
+            // Asegurar que el array existe antes de hacer push
+            if (this.history.concentrations[species]) {
+                this.history.concentrations[species].push(this.concentrations[species]);
+            } else {
+                console.error(`History array not initialized for species "${species}"`);
+                // Inicializar si no existe
+                this.history.concentrations[species] = [this.concentrations[species]];
+            }
         });
 
         this.history.rates.forward.push(rateForward);

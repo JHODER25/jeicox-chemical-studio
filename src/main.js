@@ -48,6 +48,8 @@ class ChemicalEquilibriumStudio {
         this.setupUI();
         this.setupChart();
         this.loadReactionList();
+        this.setupCollapsibles();
+        this.setupFullscreenChart();
         this.animate();
 
         console.log('🧪 Chemical Equilibrium Studio initialized!');
@@ -233,7 +235,12 @@ class ChemicalEquilibriumStudio {
                             text: 'Tiempo (s)',
                             color: '#9ca3af'
                         },
-                        ticks: { color: '#9ca3af' },
+                        ticks: {
+                            color: '#9ca3af',
+                            callback: function (value) {
+                                return Number(value).toFixed(1);
+                            }
+                        },
                         grid: { color: 'rgba(255, 255, 255, 0.1)' }
                     },
                     y: {
@@ -546,15 +553,22 @@ class ChemicalEquilibriumStudio {
             const species = [...this.currentReaction.reactants, ...this.currentReaction.products];
 
             species.forEach(sp => {
-                datasets.push({
-                    label: sp.formula,
-                    data: history.concentrations[sp.formula],
-                    borderColor: sp.color,
-                    backgroundColor: sp.color + '40',
-                    borderWidth: 2,
-                    pointRadius: 0,
-                    tension: 0.4
-                });
+                // Solo agregar dataset si existe data para esta especie
+                const data = history.concentrations[sp.formula];
+
+                if (data && Array.isArray(data) && data.length > 0) {
+                    datasets.push({
+                        label: sp.formula,
+                        data: data,
+                        borderColor: sp.color,
+                        backgroundColor: sp.color + '40',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.4
+                    });
+                } else {
+                    console.warn(`No data found for species ${sp.formula}`);
+                }
             });
 
             this.chart.data.labels = history.time;
@@ -599,6 +613,20 @@ class ChemicalEquilibriumStudio {
         }
 
         this.chart.update('none');
+
+        // Also update fullscreen chart if it's active
+        if (this.isFullscreenActive && this.fullscreenChart) {
+            this.fullscreenChart.data.labels = history.time;
+            const species = [...this.currentReaction.reactants, ...this.currentReaction.products];
+            this.fullscreenChart.data.datasets.forEach((dataset, index) => {
+                const speciesIndex = index < species.length ? index : 0;
+                const sp = species[speciesIndex];
+                if (sp && history.concentrations[sp.formula]) {
+                    dataset.data = history.concentrations[sp.formula];
+                }
+            });
+            this.fullscreenChart.update('none');
+        }
     }
 
     /**
@@ -727,6 +755,149 @@ class ChemicalEquilibriumStudio {
         link.href = url;
         link.click();
         URL.revokeObjectURL(url);
+        return blob;
+    }
+
+    /**
+     * Setup collapsible sections in sidebar
+     */
+    setupCollapsibles() {
+        const collapsibleHeaders = document.querySelectorAll('.collapsible-toggle');
+
+        collapsibleHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                const isOpen = content.classList.contains('open');
+
+                // Toggle open class
+                if (isOpen) {
+                    content.classList.remove('open');
+                    header.classList.remove('active');
+                    content.style.display = 'none';
+                } else {
+                    content.classList.add('open');
+                    header.classList.add('active');
+                    content.style.display = 'block';
+                }
+            });
+        });
+    }
+
+    /**
+     * Setup fullscreen chart functionality
+     */
+    setupFullscreenChart() {
+        const fullscreenBtn = document.getElementById('chart-fullscreen-btn');
+        const modal = document.getElementById('chart-fullscreen-modal');
+        const closeBtn = document.getElementById('close-fullscreen');
+        const fullscreenCanvas = document.getElementById('fullscreen-chart');
+
+        // Store fullscreen chart reference at class level
+        this.fullscreenChart = null;
+        this.isFullscreenActive = false;
+
+        // Open fullscreen
+        fullscreenBtn.addEventListener('click', () => {
+            if (!this.equilibriumEngine || !this.currentReaction) return;
+
+            modal.classList.add('active');
+            this.isFullscreenActive = true;
+
+            // Create fullscreen chart
+            const ctx = fullscreenCanvas.getContext('2d');
+            const history = this.equilibriumEngine.history;
+
+            const datasets = [];
+            const species = [...this.currentReaction.reactants, ...this.currentReaction.products];
+
+            species.forEach(sp => {
+                const data = history.concentrations[sp.formula];
+                if (data && Array.isArray(data) && data.length > 0) {
+                    datasets.push({
+                        label: sp.formula,
+                        data: data,
+                        borderColor: sp.color,
+                        backgroundColor: sp.color + '40',
+                        borderWidth: 3,
+                        pointRadius: 0,
+                        tension: 0.4
+                    });
+                }
+            });
+
+            this.fullscreenChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: history.time,
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            labels: {
+                                color: '#d1d5db',
+                                font: { family: 'Inter', size: 16 }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Tiempo (s)',
+                                color: '#9ca3af',
+                                font: { size: 16 }
+                            },
+                            ticks: {
+                                color: '#9ca3af',
+                                callback: function (value) {
+                                    return Number(value).toFixed(1);
+                                }
+                            },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Concentración (mol/L)',
+                                color: '#9ca3af',
+                                font: { size: 16 }
+                            },
+                            ticks: { color: '#9ca3af' },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                        }
+                    }
+                }
+            });
+        });
+
+        // Close fullscreen
+        const closeFullscreen = () => {
+            modal.classList.remove('active');
+            this.isFullscreenActive = false;
+            if (this.fullscreenChart) {
+                this.fullscreenChart.destroy();
+                this.fullscreenChart = null;
+            }
+        };
+
+        closeBtn.addEventListener('click', closeFullscreen);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeFullscreen();
+            }
+        });
+
+        // Close on ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeFullscreen();
+            }
+        });
     }
 }
 

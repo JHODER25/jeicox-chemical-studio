@@ -1,0 +1,74 @@
+/* === Simulation Controls Center (Below 3D Cube) - COMPACT VERSION === */
+.simulation-controls-center {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin-top: var(--spacing-xs);
+    box-shadow: var(--glass-shadow);
+    transition: all var(--transition-base);
+}
+
+.simulation-controls-center:hover {
+    border-color: rgba(16, 185, 129, 0.3);
+}
+
+.simulation-controls-center .panel-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.simulation-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-sm);
+}
+
+.simulation-buttons button {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: 0.75rem;
+    white-space: nowrap;
+    border-radius: var(--radius-sm);
+}
+
+.simulation-sliders {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+}
+
+.simulation-sliders .control-group {
+    margin-bottom: 0;
+}
+
+.simulation-sliders .control-label {
+    font-size: 0.75rem;
+}
+
+.simulation-sliders .control-value {
+    font-size: 0.75rem;
+}
+
+.simulation-sliders .control-hint {
+    font-size: 0.65rem;
+    margin-top: var(--spacing-xs);
+}
+
+.simulation-sliders input[type="range"] {
+    height: 4px;
+}
+
+.simulation-sliders .timescale-labels {
+    font-size: 0.65rem;
+    margin-top: 2px;
+}
