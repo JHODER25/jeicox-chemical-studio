@@ -188,9 +188,9 @@ class ChemicalEquilibriumStudio {
         });
 
         // Tabs de gráficas
-        document.querySelectorAll('.tab-btn').forEach(btn => {
+        document.querySelectorAll('.chart-tab').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.chart-tab').forEach(b => b.classList.remove('active'));
                 e.target.classList.add('active');
                 this.currentChartType = e.target.dataset.chart;
                 this.updateChart();
