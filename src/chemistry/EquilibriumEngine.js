@@ -172,10 +172,22 @@ export class EquilibriumEngine {
     }
 
     /**
-     * Calcula la constante de equilibrio Kc
+     * Calcula la constante de equilibrio Kc desde termodinámica
+     * K = exp(-ΔG° / RT)
+     * Donde ΔG° = ΔH - T·ΔS
      */
     calculateKc() {
-        return this.getForwardRateConstant() / this.getReverseRateConstant();
+        const { deltaH, deltaS } = this.reaction;
+        const T = this.temperature;
+        const R = 8.314; // J/(mol·K)
+
+        // ΔG° = ΔH - T·ΔS (convertir todo a J)
+        const deltaG_standard = (deltaH * 1000) - (T * deltaS);
+
+        // K = exp(-ΔG° / RT)
+        const K = Math.exp(-deltaG_standard / (R * T));
+
+        return K;
     }
 
     /**
