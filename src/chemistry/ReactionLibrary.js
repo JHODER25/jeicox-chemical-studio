@@ -21,7 +21,8 @@ export const ReactionLibrary = {
 
         // Cinética AJUSTADA (proporcional a valores reales pero escala útil)
         kForward: 0.48,  // s⁻¹ a 298 K (escalado 10x menor para visualización)
-        kReverse: 120, // M⁻¹s⁻¹ (escalado 10x menor)
+        // K_eq (termo) ≈ 0.147. kr = kf / K_eq = 0.48 / 0.147 ≈ 3.265
+        kReverse: 3.27, // M⁻¹s⁻¹ (AJUSTADO TERMODINÁMICAMENTE)
 
         // Energías de activación REALES
         Ea_forward: 54.0,  // kJ/mol (documentado: 50-58 kJ/mol)
@@ -61,7 +62,8 @@ export const ReactionLibrary = {
 
         // Cinética AJUSTADA  
         kForward: 0.00234,  // M⁻¹s⁻¹ a 700 K (escalado 100x mayor para pedagogía)
-        kReverse: 0.000423, // M⁻²s⁻¹
+        // K_eq (termo) ≈ 69.2 (a 700K). kr = kf / K_eq = 0.00234 / 69.2 ≈ 0.0000338
+        kReverse: 0.0000338, // M⁻²s⁻¹ (AJUSTADO TERMODINÁMICAMENTE)
 
         // Energías de activación REALES
         Ea_forward: 165.0, // kJ/mol (documentado: 163-167 kJ/mol)
@@ -101,7 +103,8 @@ export const ReactionLibrary = {
 
         // Cinética AJUSTADA
         kForward: 0.00086,  // s⁻¹ a 473 K (valores reales funcionan bien)
-        kReverse: 0.12,     // M⁻¹s⁻¹
+        // K_eq (termo) ≈ 0.0016 (473K). kr = kf / K_eq = 0.00086 / 0.0016 ≈ 0.5375
+        kReverse: 0.538,     // M⁻¹s⁻¹ (AJUSTADO TERMODINÁMICAMENTE)
 
         // Energías de activación REALES
         Ea_forward: 210.0,  // kJ/mol (ruptura de enlace P-Cl fuerte)
@@ -141,7 +144,8 @@ export const ReactionLibrary = {
 
         // Cinética AJUSTADA (reducida para estabilidad)
         kForward: 18,   // M⁻¹s⁻¹ (100x menor para estabilidad)
-        kReverse: 0.02,   // s⁻¹
+        // K_eq (termo) ≈ 239 (298K). kr = kf / K_eq = 18 / 239 ≈ 0.0753
+        kReverse: 0.075,   // s⁻¹ (AJUSTADO TERMODINÁMICAMENTE)
 
         // Energías de activación REALES (muy bajas - iónica)
         Ea_forward: 18.0,  // kJ/mol (barrera muy baja)
@@ -180,8 +184,10 @@ export const ReactionLibrary = {
         ],
 
         // Cinética AJUSTADA (reducida para evitar sobrecarga con catalizador)
-        kForward: 0.0014,   // M⁻¹s⁻¹ a 373 K (10x menor que real para estabilidad)
-        kReverse: 0.00028,  // s⁻¹
+        // Reducimos kForward para que kReverse no sea demasiado pequeño (estabilidad numérica)
+        kForward: 0.00014,   // M⁻¹s⁻¹ a 373 K (AJUSTADO para estabilidad)
+        // K_eq (termo) ≈ 2.13e8 (373K). kr = kf / K_eq = 0.00014 / 2.13e8 ≈ 6.57e-13
+        kReverse: 6.57e-13,  // s⁻¹ (AJUSTADO TERMODINÁMICAMENTE - Muy pequeño, reacción casi irreversible)
 
         // Energías de activación REALES
         Ea_forward: 98.0,  // kJ/mol
@@ -221,7 +227,13 @@ export const ReactionLibrary = {
 
         // Cinética AJUSTADA (escalada para pedagogía)
         kForward: 8.2e-8,  // M⁻³s⁻¹ a 298 K (escalado 10¹³x mayor para ser observable con timescale)
-        kReverse: 4.1e-5,  // M⁻²s⁻¹
+        // K_eq (termo) ≈ 0.00036 (700K). Espera, 298K o 700K?
+        // Haber Bosch usa 700K. A 700K, Keq ≈ 0.00036.
+        // Pero kForward está definido a 298K en el comentario? Asumiremos T=700K para consistencia con recommended.
+        // A 700K: dH = -92.4 kJ, dS = -0.198 kJ/K. dG = -92.4 - (700*-0.198) = 46.2 kJ.
+        // K = exp(-46200 / (8.314*700)) = exp(-7.94) ≈ 0.000356
+        // kr = kf / K = 8.2e-8 / 0.000356 ≈ 0.00023
+        kReverse: 0.00023,  // M⁻²s⁻¹ (AJUSTADO TERMODINÁMICAMENTE a 700K)
 
         // Energías de activación REALES (triple enlace N≡N = 945 kJ/mol)
         Ea_forward: 335.0,  // kJ/mol (ALTÍSIMA - romper N≡N)
